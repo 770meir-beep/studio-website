@@ -17,9 +17,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Resonance Studio | Professional Recording",
+  title: "Esti Studio | Professional Recording",
   description:
-    "World-class recording studio offering professional recording, mixing, mastering, and music production services.",
+    "World-class recording studio offering professional recording, mixing, mastering, and music production services. Located in Brooklyn, NY.",
 };
 
 export default function RootLayout({
@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geist.variable} ${playfair.variable}`}>
-      <body className="bg-[#080808] text-[#F0EDE6] antialiased">
+      <body className="bg-[#080608] text-[#F5ECEF] antialiased">
         <Navbar />
         <main>{children}</main>
         <Footer />
