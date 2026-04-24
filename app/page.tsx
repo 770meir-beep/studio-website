@@ -88,8 +88,8 @@ export default function HomePage() {
         {/* Background photo */}
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1920&q=80"
-            alt="Recording studio console"
+            src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1920&q=80"
+            alt="Professional condenser microphone in recording studio"
             fill
             className="object-cover object-center"
             priority
@@ -174,8 +174,8 @@ export default function HomePage() {
         </div>
         <div className="relative overflow-hidden">
           <Image
-            src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=600&q=80"
-            alt="Professional microphone"
+            src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=600&q=80"
+            alt="Mixing console at Esti Studio"
             fill
             className="object-cover brightness-75 hover:brightness-90 transition-all duration-500 hover:scale-105"
           />
