@@ -3,6 +3,7 @@ import { Geist, Heebo, Frank_Ruhl_Libre, Playfair_Display } from "next/font/goog
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import FloatingLangToggle from "@/components/FloatingLangToggle";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const geist = Geist({
@@ -56,6 +57,7 @@ export default function RootLayout({
           <Navbar />
           <main id="main-content">{children}</main>
           <Footer />
+          <FloatingLangToggle />
         </LanguageProvider>
       </body>
     </html>
