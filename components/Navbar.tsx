@@ -71,9 +71,9 @@ export default function Navbar() {
           <button
             onClick={toggleLang}
             aria-label={lang === "he" ? "Switch to English" : "עבור לעברית"}
-            className="text-xs tracking-[0.15em] uppercase text-[#A89298] hover:text-[#C98BA0] transition-colors duration-200 px-2 py-1 border border-transparent hover:border-[#C98BA0]/30"
+            className="text-xs tracking-[0.15em] uppercase px-3 py-1.5 border border-[#C98BA0]/50 text-[#C98BA0] hover:bg-[#C98BA0] hover:text-[#080608] transition-all duration-200"
           >
-            {lang === "en" ? "עב" : "EN"}
+            {lang === "en" ? "עברית" : "English"}
           </button>
 
           <Link
