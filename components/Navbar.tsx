@@ -3,19 +3,13 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/services", label: "Services" },
-  { href: "/studio", label: "Studio" },
-  { href: "/contact", label: "Contact" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { t, lang, toggleLang } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -23,8 +17,17 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const navLinks = [
+    { href: "/", label: t.nav.home },
+    { href: "/about", label: t.nav.about },
+    { href: "/services", label: t.nav.services },
+    { href: "/studio", label: t.nav.studio },
+    { href: "/contact", label: t.nav.contact },
+  ];
+
   return (
     <nav
+      aria-label={lang === "he" ? "ניווט ראשי" : "Main navigation"}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled || menuOpen
           ? "bg-[#080608]/96 backdrop-blur-md border-b border-[#201820]"
@@ -33,7 +36,7 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
         {/* Logo */}
-        <Link href="/" className="flex flex-col leading-none">
+        <Link href="/" className="flex flex-col leading-none" aria-label="Esti Studio — Home">
           <span
             className="font-bold text-[#F5ECEF] tracking-widest uppercase text-xl"
             style={{ fontFamily: "var(--font-playfair)" }}
@@ -51,6 +54,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
+              aria-current={pathname === link.href ? "page" : undefined}
               className={`text-xs tracking-[0.15em] uppercase transition-colors duration-200 ${
                 pathname === link.href
                   ? "text-[#C98BA0]"
@@ -62,36 +66,64 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="hidden md:block">
+        <div className="hidden md:flex items-center gap-4">
+          {/* Language toggle */}
+          <button
+            onClick={toggleLang}
+            aria-label={lang === "he" ? "Switch to English" : "עבור לעברית"}
+            className="text-xs tracking-[0.15em] uppercase text-[#A89298] hover:text-[#C98BA0] transition-colors duration-200 px-2 py-1 border border-transparent hover:border-[#C98BA0]/30"
+          >
+            {lang === "en" ? "עב" : "EN"}
+          </button>
+
           <Link
             href="/contact"
             className="text-xs tracking-[0.2em] uppercase px-6 py-3 border border-[#C98BA0] text-[#C98BA0] hover:bg-[#C98BA0] hover:text-[#080608] transition-all duration-300"
           >
-            Book Session
+            {t.nav.bookSession}
           </Link>
         </div>
 
         {/* Mobile Toggle */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={lang === "he" ? "פתח/סגור תפריט" : "Toggle menu"}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
           className="md:hidden flex flex-col gap-1.5 p-2"
-          aria-label="Toggle menu"
         >
-          <span className={`block w-6 h-px bg-[#F5ECEF] transition-all duration-300 origin-center ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
-          <span className={`block w-6 h-px bg-[#F5ECEF] transition-opacity duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-          <span className={`block w-6 h-px bg-[#F5ECEF] transition-all duration-300 origin-center ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
+          <span
+            className={`block w-6 h-px bg-[#F5ECEF] transition-all duration-300 origin-center ${
+              menuOpen ? "rotate-45 translate-y-[7px]" : ""
+            }`}
+          />
+          <span
+            className={`block w-6 h-px bg-[#F5ECEF] transition-opacity duration-300 ${
+              menuOpen ? "opacity-0" : ""
+            }`}
+          />
+          <span
+            className={`block w-6 h-px bg-[#F5ECEF] transition-all duration-300 origin-center ${
+              menuOpen ? "-rotate-45 -translate-y-[7px]" : ""
+            }`}
+          />
         </button>
       </div>
 
       {/* Mobile Menu */}
-      <div className={`md:hidden transition-all duration-300 overflow-hidden ${menuOpen ? "max-h-96" : "max-h-0"}`}>
+      <div
+        id="mobile-menu"
+        className={`md:hidden transition-all duration-300 overflow-hidden ${
+          menuOpen ? "max-h-[32rem]" : "max-h-0"
+        }`}
+      >
         <div className="px-6 pb-6 pt-4 flex flex-col gap-5 border-t border-[#201820]">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
+              aria-current={pathname === link.href ? "page" : undefined}
               className={`text-sm tracking-[0.15em] uppercase transition-colors ${
                 pathname === link.href ? "text-[#C98BA0]" : "text-[#A89298]"
               }`}
@@ -99,12 +131,19 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
+          <button
+            onClick={toggleLang}
+            aria-label={lang === "he" ? "Switch to English" : "עבור לעברית"}
+            className="text-sm tracking-[0.15em] uppercase text-[#A89298] hover:text-[#C98BA0] transition-colors text-start"
+          >
+            {lang === "en" ? "עברית" : "English"}
+          </button>
           <Link
             href="/contact"
             onClick={() => setMenuOpen(false)}
             className="text-xs tracking-[0.2em] uppercase px-6 py-3 border border-[#C98BA0] text-[#C98BA0] text-center mt-2"
           >
-            Book Session
+            {t.nav.bookSession}
           </Link>
         </div>
       </div>

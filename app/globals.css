@@ -44,3 +44,31 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(201, 139, 160, 0.3);
 }
+
+/* Focus styles for keyboard navigation */
+:focus-visible {
+  outline: 2px solid #C98BA0;
+  outline-offset: 3px;
+}
+
+/* Hebrew: swap body font */
+html[lang="he"] {
+  --font-sans: var(--font-heebo);
+}
+
+/* Hebrew: use Frank Ruhl Libre for display/headings */
+html[lang="he"] .font-display,
+html[lang="he"] [style*="--font-playfair"] {
+  font-family: var(--font-frank-ruhl), serif;
+}
+
+/* RTL timeline border flips */
+html[dir="rtl"] .timeline-line {
+  border-left: none;
+  border-right: 1px solid #201820;
+}
+
+html[dir="rtl"] .timeline-dot {
+  right: -5px;
+  left: auto;
+}

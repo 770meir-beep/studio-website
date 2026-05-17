@@ -1,19 +1,14 @@
 "use client";
 
 import { useState } from "react";
-
-const serviceOptions = [
-  "Recording Session",
-  "Mixing",
-  "Mastering",
-  "Music Production",
-  "Studio Tour",
-  "Other",
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function ContactPage() {
+  const { t, headingFont } = useLanguage();
+  const { header, info, form, success } = t.contact;
+
   const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
@@ -25,7 +20,7 @@ export default function ContactPage() {
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
   function handleSubmit(e: React.FormEvent) {
@@ -36,31 +31,34 @@ export default function ContactPage() {
   const inputClass =
     "w-full bg-[#120e10] border border-[#201820] text-[#F5ECEF] text-sm px-5 py-4 placeholder:text-[#4a3a42] focus:outline-none focus:border-[#C98BA0]/50 transition-colors duration-200";
 
+  const labelClass = "block text-[10px] text-[#C98BA0] tracking-[0.3em] uppercase mb-2";
+
   return (
     <>
       {/* Header */}
-      <section className="pt-40 pb-24 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[#080608]" />
+      <section className="pt-40 pb-24 px-6 relative overflow-hidden" aria-labelledby="contact-heading">
+        <div className="absolute inset-0 bg-[#080608]" aria-hidden="true" />
         <div
           className="absolute inset-0"
+          aria-hidden="true"
           style={{
             background: "radial-gradient(ellipse 50% 50% at 80% 40%, rgba(201,139,160,0.07) 0%, transparent 60%)",
           }}
         />
         <div className="relative z-10 max-w-7xl mx-auto">
           <div className="flex items-center gap-4 mb-6">
-            <div className="h-px w-8 bg-[#C98BA0]" />
-            <span className="text-[#C98BA0] text-[11px] tracking-[0.4em] uppercase">Contact</span>
+            <div className="h-px w-8 bg-[#C98BA0]" aria-hidden="true" />
+            <span className="text-[#C98BA0] text-[11px] tracking-[0.4em] uppercase">{header.label}</span>
           </div>
           <h1
+            id="contact-heading"
             className="text-6xl md:text-8xl font-black text-[#F5ECEF] leading-tight max-w-3xl mb-8"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: headingFont }}
           >
-            Let&#39;s Make Something
+            {header.heading}
           </h1>
           <p className="text-[#A89298] text-xl leading-relaxed max-w-2xl">
-            Ready to book a session, ask a question, or schedule a tour?
-            Fill out the form and we&#39;ll get back to you within 24 hours.
+            {header.description}
           </p>
         </div>
       </section>
@@ -69,39 +67,36 @@ export default function ContactPage() {
       <section className="pb-32 px-6">
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-16">
           {/* Info */}
-          <div className="md:col-span-1 space-y-12">
+          <aside className="md:col-span-1 space-y-12">
             <div>
-              <div className="h-px w-8 bg-[#C98BA0]/40 mb-6" />
-              <h3 className="text-[11px] text-[#C98BA0] tracking-[0.35em] uppercase mb-4">Location</h3>
-              <p className="text-[#A89298] text-sm leading-relaxed">
-                1402 Union St<br />
-                Brooklyn, New York<br />
-                NY 11231
-              </p>
+              <div className="h-px w-8 bg-[#C98BA0]/40 mb-6" aria-hidden="true" />
+              <h2 className="text-[11px] text-[#C98BA0] tracking-[0.35em] uppercase mb-4">{info.location.label}</h2>
+              <address className="text-[#A89298] text-sm leading-relaxed not-italic">
+                {info.location.address.map((line, i) => (
+                  <span key={i}>
+                    {line}
+                    {i < info.location.address.length - 1 && <br />}
+                  </span>
+                ))}
+              </address>
             </div>
 
             <div>
-              <div className="h-px w-8 bg-[#C98BA0]/40 mb-6" />
-              <h3 className="text-[11px] text-[#C98BA0] tracking-[0.35em] uppercase mb-4">Hours</h3>
-              <div className="space-y-2 text-sm text-[#A89298]">
-                <div className="flex justify-between gap-8">
-                  <span>Monday – Friday</span>
-                  <span className="text-[#F5ECEF]">10am – 10pm</span>
-                </div>
-                <div className="flex justify-between gap-8">
-                  <span>Saturday</span>
-                  <span className="text-[#F5ECEF]">12pm – 8pm</span>
-                </div>
-                <div className="flex justify-between gap-8">
-                  <span>Sunday</span>
-                  <span className="text-[#F5ECEF]">By appointment</span>
-                </div>
-              </div>
+              <div className="h-px w-8 bg-[#C98BA0]/40 mb-6" aria-hidden="true" />
+              <h2 className="text-[11px] text-[#C98BA0] tracking-[0.35em] uppercase mb-4">{info.hours.label}</h2>
+              <dl className="space-y-2 text-sm text-[#A89298]">
+                {info.hours.rows.map((row, i) => (
+                  <div key={i} className="flex justify-between gap-8">
+                    <dt>{row.day}</dt>
+                    <dd className="text-[#F5ECEF]">{row.time}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
 
             <div>
-              <div className="h-px w-8 bg-[#C98BA0]/40 mb-6" />
-              <h3 className="text-[11px] text-[#C98BA0] tracking-[0.35em] uppercase mb-4">Get In Touch</h3>
+              <div className="h-px w-8 bg-[#C98BA0]/40 mb-6" aria-hidden="true" />
+              <h2 className="text-[11px] text-[#C98BA0] tracking-[0.35em] uppercase mb-4">{info.getInTouch.label}</h2>
               <div className="space-y-2 text-sm">
                 <a href="tel:+17185550192" className="block text-[#A89298] hover:text-[#F5ECEF] transition-colors">
                   +1 (718) 555-0192
@@ -111,51 +106,97 @@ export default function ContactPage() {
                 </a>
               </div>
             </div>
-          </div>
+          </aside>
 
           {/* Form */}
           <div className="md:col-span-2">
             {submitted ? (
-              <div className="border border-[#C98BA0]/20 bg-[#120e10] p-16 text-center">
+              <div className="border border-[#C98BA0]/20 bg-[#120e10] p-16 text-center" role="alert">
                 <div className="flex items-center justify-center gap-4 mb-6">
-                  <div className="h-px w-8 bg-[#C98BA0]" />
-                  <span className="text-[#C98BA0] text-[11px] tracking-[0.4em] uppercase">Sent</span>
-                  <div className="h-px w-8 bg-[#C98BA0]" />
+                  <div className="h-px w-8 bg-[#C98BA0]" aria-hidden="true" />
+                  <span className="text-[#C98BA0] text-[11px] tracking-[0.4em] uppercase">{success.label}</span>
+                  <div className="h-px w-8 bg-[#C98BA0]" aria-hidden="true" />
                 </div>
                 <h2
                   className="text-4xl font-bold text-[#F5ECEF] mb-4"
-                  style={{ fontFamily: "var(--font-playfair)" }}
+                  style={{ fontFamily: headingFont }}
                 >
-                  Thank You, {form.name.split(" ")[0]}
+                  {success.heading}, {formData.name.split(" ")[0]}
                 </h2>
                 <p className="text-[#A89298] text-sm leading-relaxed max-w-md mx-auto">
-                  Your message has been received. We&#39;ll be in touch within 24
-                  hours to discuss your session at Esti Studio.
+                  {success.description}
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] text-[#C98BA0] tracking-[0.3em] uppercase mb-2">Full Name *</label>
-                    <input type="text" name="name" required value={form.name} onChange={handleChange} placeholder="Your full name" className={inputClass} />
+                    <label htmlFor="name" className={labelClass}>
+                      {form.fullName} <span aria-hidden="true">{form.required}</span>
+                      <span className="sr-only"> (required)</span>
+                    </label>
+                    <input
+                      id="name"
+                      type="text"
+                      name="name"
+                      required
+                      autoComplete="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder={form.namePlaceholder}
+                      className={inputClass}
+                    />
                   </div>
                   <div>
-                    <label className="block text-[10px] text-[#C98BA0] tracking-[0.3em] uppercase mb-2">Email Address *</label>
-                    <input type="email" name="email" required value={form.email} onChange={handleChange} placeholder="you@example.com" className={inputClass} />
+                    <label htmlFor="email" className={labelClass}>
+                      {form.emailAddress} <span aria-hidden="true">{form.required}</span>
+                      <span className="sr-only"> (required)</span>
+                    </label>
+                    <input
+                      id="email"
+                      type="email"
+                      name="email"
+                      required
+                      autoComplete="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder={form.emailPlaceholder}
+                      className={inputClass}
+                    />
                   </div>
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] text-[#C98BA0] tracking-[0.3em] uppercase mb-2">Phone Number</label>
-                    <input type="tel" name="phone" value={form.phone} onChange={handleChange} placeholder="+1 (000) 000-0000" className={inputClass} />
+                    <label htmlFor="phone" className={labelClass}>
+                      {form.phoneNumber}
+                    </label>
+                    <input
+                      id="phone"
+                      type="tel"
+                      name="phone"
+                      autoComplete="tel"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder={form.phonePlaceholder}
+                      className={inputClass}
+                    />
                   </div>
                   <div>
-                    <label className="block text-[10px] text-[#C98BA0] tracking-[0.3em] uppercase mb-2">Service *</label>
-                    <select name="service" required value={form.service} onChange={handleChange} className={inputClass + " appearance-none cursor-pointer"}>
-                      <option value="" disabled>Select a service</option>
-                      {serviceOptions.map((opt) => (
+                    <label htmlFor="service" className={labelClass}>
+                      {form.service} <span aria-hidden="true">{form.required}</span>
+                      <span className="sr-only"> (required)</span>
+                    </label>
+                    <select
+                      id="service"
+                      name="service"
+                      required
+                      value={formData.service}
+                      onChange={handleChange}
+                      className={inputClass + " appearance-none cursor-pointer"}
+                    >
+                      <option value="" disabled>{form.selectService}</option>
+                      {form.serviceOptions.map((opt) => (
                         <option key={opt} value={opt}>{opt}</option>
                       ))}
                     </select>
@@ -163,13 +204,35 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] text-[#C98BA0] tracking-[0.3em] uppercase mb-2">Preferred Date</label>
-                  <input type="date" name="date" value={form.date} onChange={handleChange} className={inputClass} style={{ colorScheme: "dark" }} />
+                  <label htmlFor="date" className={labelClass}>
+                    {form.preferredDate}
+                  </label>
+                  <input
+                    id="date"
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    className={inputClass}
+                    style={{ colorScheme: "dark" }}
+                  />
                 </div>
 
                 <div>
-                  <label className="block text-[10px] text-[#C98BA0] tracking-[0.3em] uppercase mb-2">Tell Us About Your Project *</label>
-                  <textarea name="message" required rows={6} value={form.message} onChange={handleChange} placeholder="Describe your project, genre, number of tracks, timeline..." className={inputClass + " resize-none"} />
+                  <label htmlFor="message" className={labelClass}>
+                    {form.projectDescription} <span aria-hidden="true">{form.required}</span>
+                    <span className="sr-only"> (required)</span>
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows={6}
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder={form.projectPlaceholder}
+                    className={inputClass + " resize-none"}
+                  />
                 </div>
 
                 <div className="pt-2">
@@ -177,7 +240,7 @@ export default function ContactPage() {
                     type="submit"
                     className="w-full sm:w-auto px-12 py-4 bg-[#C98BA0] text-[#080608] text-xs tracking-[0.3em] uppercase font-semibold hover:bg-[#E8B4C4] transition-colors duration-300"
                   >
-                    Send Message
+                    {form.sendMessage}
                   </button>
                 </div>
               </form>

@@ -1,67 +1,46 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-
-const team = [
-  {
-    name: "Esti Cohen",
-    role: "Founder & Lead Engineer",
-    bio: "15 years of engineering experience across jazz, R&B, pop, and electronic music. Esti built this studio to be the creative space she always wished existed — welcoming, precise, and inspiring.",
-  },
-  {
-    name: "Sofia Reyes",
-    role: "Mixing & Mastering Engineer",
-    bio: "Trained at Abbey Road Studios in London. Sofia brings a refined sonic sensibility and technical mastery that has become a defining quality of the Esti Studio sound.",
-  },
-  {
-    name: "James Okafor",
-    role: "Music Producer",
-    bio: "Prolific producer with credits on over 200 commercial releases. James has an uncanny ability to unlock an artist's unique voice and elevate it to its full potential.",
-  },
-];
-
-const milestones = [
-  { year: "2009", event: "Esti Studio founded in a converted warehouse in Brooklyn" },
-  { year: "2012", event: "Expanded to three dedicated recording rooms" },
-  { year: "2015", event: "Installed vintage Neve 8078 console" },
-  { year: "2018", event: "Launched in-house mastering division" },
-  { year: "2022", event: "Celebrated 500th commercial release" },
-  { year: "2024", event: "Major acoustic renovation and equipment upgrade" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function AboutPage() {
+  const { t, headingFont } = useLanguage();
+  const { header, philosophy, team, timeline, cta } = t.about;
+
   return (
     <>
       {/* Header */}
-      <section className="pt-40 pb-24 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[#080608]" />
+      <section className="pt-40 pb-24 px-6 relative overflow-hidden" aria-labelledby="about-heading">
+        <div className="absolute inset-0 bg-[#080608]" aria-hidden="true" />
         <div
           className="absolute inset-0"
+          aria-hidden="true"
           style={{
             background: "radial-gradient(ellipse 60% 50% at 20% 50%, rgba(201,139,160,0.06) 0%, transparent 60%)",
           }}
         />
         <div className="relative z-10 max-w-7xl mx-auto">
           <div className="flex items-center gap-4 mb-6">
-            <div className="h-px w-8 bg-[#C98BA0]" />
-            <span className="text-[#C98BA0] text-[11px] tracking-[0.4em] uppercase">About Us</span>
+            <div className="h-px w-8 bg-[#C98BA0]" aria-hidden="true" />
+            <span className="text-[#C98BA0] text-[11px] tracking-[0.4em] uppercase">{header.label}</span>
           </div>
           <h1
+            id="about-heading"
             className="text-6xl md:text-8xl font-black text-[#F5ECEF] leading-tight max-w-3xl mb-8"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: headingFont }}
           >
-            Our Story
+            {header.heading}
           </h1>
           <p className="text-[#A89298] text-xl leading-relaxed max-w-2xl">
-            Built by musicians for musicians. Esti Studio was founded on a
-            single belief: that the recording environment should inspire, not intimidate.
+            {header.description}
           </p>
         </div>
       </section>
 
       {/* Philosophy */}
-      <section className="py-24 px-6 bg-[#060406]">
+      <section className="py-24 px-6 bg-[#060406]" aria-labelledby="philosophy-heading">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          {/* Photo */}
           <div className="relative">
             <div className="aspect-square relative overflow-hidden">
               <Image
@@ -70,77 +49,75 @@ export default function AboutPage() {
                 fill
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-[#080608]/30" />
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C98BA0]/30 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C98BA0]/30 to-transparent" />
+              <div className="absolute inset-0 bg-[#080608]/30" aria-hidden="true" />
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C98BA0]/30 to-transparent" aria-hidden="true" />
+              <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C98BA0]/30 to-transparent" aria-hidden="true" />
             </div>
-            <div className="absolute -bottom-6 -right-6 w-24 h-24 border border-[#C98BA0]/20" />
+            <div className="absolute -bottom-6 -right-6 w-24 h-24 border border-[#C98BA0]/20" aria-hidden="true" />
           </div>
 
-          {/* Text */}
           <div>
             <div className="flex items-center gap-4 mb-6">
-              <div className="h-px w-8 bg-[#C98BA0]" />
-              <span className="text-[#C98BA0] text-[11px] tracking-[0.4em] uppercase">Our Philosophy</span>
+              <div className="h-px w-8 bg-[#C98BA0]" aria-hidden="true" />
+              <span className="text-[#C98BA0] text-[11px] tracking-[0.4em] uppercase">{philosophy.label}</span>
             </div>
             <h2
+              id="philosophy-heading"
               className="text-4xl md:text-5xl font-bold text-[#F5ECEF] mb-8 leading-tight"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              style={{ fontFamily: headingFont }}
             >
-              Sound Is Emotion. We Help You Capture It.
+              {philosophy.heading}
             </h2>
             <div className="space-y-5 text-[#A89298] text-sm leading-relaxed">
-              <p>
-                Great recording isn&#39;t just technical excellence — it&#39;s creating a space
-                where artists feel safe to take creative risks. From the moment you walk
-                through our doors, everything is designed to remove friction and amplify inspiration.
-              </p>
-              <p>
-                We obsess over the details most studios overlook: the acoustics that breathe
-                naturally, the vintage gear that imparts warmth, the engineers who listen as
-                musicians first and technicians second.
-              </p>
-              <p>
-                The result is recordings that sound alive — not just clean, but deeply human.
-              </p>
+              {philosophy.paragraphs.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* Team */}
-      <section className="py-32 px-6">
+      <section className="py-32 px-6" aria-labelledby="team-heading">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-4 mb-4">
-            <div className="h-px w-8 bg-[#C98BA0]" />
-            <span className="text-[#C98BA0] text-[11px] tracking-[0.4em] uppercase">The Team</span>
+            <div className="h-px w-8 bg-[#C98BA0]" aria-hidden="true" />
+            <span className="text-[#C98BA0] text-[11px] tracking-[0.4em] uppercase">{team.label}</span>
           </div>
           <h2
+            id="team-heading"
             className="text-5xl font-bold text-[#F5ECEF] mb-16 leading-tight"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: headingFont }}
           >
-            The People Behind the Sound
+            {team.heading}
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#201820]">
-            {team.map((member) => (
-              <div key={member.name} className="bg-[#080608] p-10 group hover:bg-[#0e0a0c] transition-colors duration-300">
-                <div className="w-16 h-16 border border-[#C98BA0]/30 mb-8 flex items-center justify-center group-hover:border-[#C98BA0]/60 transition-colors duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#201820]" role="list">
+            {team.members.map((member) => (
+              <div
+                key={member.name}
+                role="listitem"
+                className="bg-[#080608] p-10 group hover:bg-[#0e0a0c] transition-colors duration-300"
+              >
+                <div
+                  className="w-16 h-16 border border-[#C98BA0]/30 mb-8 flex items-center justify-center group-hover:border-[#C98BA0]/60 transition-colors duration-300"
+                  aria-hidden="true"
+                >
                   <span
                     className="text-2xl font-black text-[#C98BA0]/50 group-hover:text-[#C98BA0]/70 transition-colors duration-300"
-                    style={{ fontFamily: "var(--font-playfair)" }}
+                    style={{ fontFamily: headingFont }}
                   >
                     {member.name[0]}
                   </span>
                 </div>
                 <h3
                   className="text-xl font-bold text-[#F5ECEF] mb-1"
-                  style={{ fontFamily: "var(--font-playfair)" }}
+                  style={{ fontFamily: headingFont }}
                 >
                   {member.name}
                 </h3>
                 <p className="text-[#C98BA0] text-xs tracking-[0.2em] uppercase mb-5">{member.role}</p>
-                <div className="h-px w-8 bg-[#201820] mb-5" />
+                <div className="h-px w-8 bg-[#201820] mb-5" aria-hidden="true" />
                 <p className="text-[#A89298] text-sm leading-relaxed">{member.bio}</p>
               </div>
             ))}
@@ -149,37 +126,39 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline */}
-      <section className="py-32 px-6 bg-[#060406]">
+      <section className="py-32 px-6 bg-[#060406]" aria-labelledby="timeline-heading">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-4 mb-4">
-            <div className="h-px w-8 bg-[#C98BA0]" />
-            <span className="text-[#C98BA0] text-[11px] tracking-[0.4em] uppercase">History</span>
+            <div className="h-px w-8 bg-[#C98BA0]" aria-hidden="true" />
+            <span className="text-[#C98BA0] text-[11px] tracking-[0.4em] uppercase">{timeline.label}</span>
           </div>
           <h2
+            id="timeline-heading"
             className="text-5xl font-bold text-[#F5ECEF] mb-16 leading-tight"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: headingFont }}
           >
-            15 Years of Sound
+            {timeline.heading}
           </h2>
 
-          <div className="relative">
-            <div className="space-y-0">
-              {milestones.map((milestone, i) => (
-                <div key={i} className="flex gap-8 group">
-                  <div
-                    className="w-16 text-right shrink-0 text-[#C98BA0]/50 text-sm font-bold pt-8 group-hover:text-[#C98BA0] transition-colors duration-300"
-                    style={{ fontFamily: "var(--font-playfair)" }}
-                  >
-                    {milestone.year}
-                  </div>
-                  <div className="relative flex-1 pb-10 pl-8 pt-8 border-l border-[#201820]">
-                    <div className="absolute -left-[5px] top-[38px] w-[9px] h-[9px] rounded-full border border-[#C98BA0]/30 bg-[#060406] group-hover:border-[#C98BA0] group-hover:bg-[#C98BA0]/20 transition-all duration-300" />
-                    <p className="text-[#F5ECEF] text-sm leading-relaxed">{milestone.event}</p>
-                  </div>
+          <ol className="space-y-0">
+            {timeline.milestones.map((milestone, i) => (
+              <li key={i} className="flex gap-8 group">
+                <div
+                  className="w-16 text-right shrink-0 text-[#C98BA0]/50 text-sm font-bold pt-8 group-hover:text-[#C98BA0] transition-colors duration-300 rtl:text-left"
+                  style={{ fontFamily: headingFont }}
+                >
+                  {milestone.year}
                 </div>
-              ))}
-            </div>
-          </div>
+                <div className="relative flex-1 pb-10 ps-8 pt-8 border-s border-[#201820]">
+                  <div
+                    className="absolute -start-[5px] top-[38px] w-[9px] h-[9px] rounded-full border border-[#C98BA0]/30 bg-[#060406] group-hover:border-[#C98BA0] group-hover:bg-[#C98BA0]/20 transition-all duration-300"
+                    aria-hidden="true"
+                  />
+                  <p className="text-[#F5ECEF] text-sm leading-relaxed">{milestone.event}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
@@ -189,17 +168,17 @@ export default function AboutPage() {
           <div>
             <h3
               className="text-4xl font-bold text-[#F5ECEF] mb-3"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              style={{ fontFamily: headingFont }}
             >
-              Ready to Work Together?
+              {cta.heading}
             </h3>
-            <p className="text-[#A89298] text-sm">Let&#39;s create something extraordinary at Esti Studio.</p>
+            <p className="text-[#A89298] text-sm">{cta.description}</p>
           </div>
           <Link
             href="/contact"
             className="px-10 py-4 bg-[#C98BA0] text-[#080608] text-xs tracking-[0.3em] uppercase font-semibold hover:bg-[#E8B4C4] transition-colors duration-300 shrink-0"
           >
-            Book a Session
+            {cta.bookSession}
           </Link>
         </div>
       </section>
