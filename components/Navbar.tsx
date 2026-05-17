@@ -84,6 +84,15 @@ export default function Navbar() {
           </Link>
         </div>
 
+        {/* Mobile language toggle — always visible on small screens */}
+        <button
+          onClick={toggleLang}
+          aria-label={lang === "he" ? "Switch to English" : "עבור לעברית"}
+          className="md:hidden text-xs px-3 py-1.5 border border-[#C98BA0]/50 text-[#C98BA0] hover:bg-[#C98BA0] hover:text-[#080608] transition-all duration-200"
+        >
+          {lang === "en" ? "עב" : "EN"}
+        </button>
+
         {/* Mobile Toggle */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
